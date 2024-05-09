@@ -1,0 +1,1 @@
+export * from './expensetracker.component';

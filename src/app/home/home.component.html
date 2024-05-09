@@ -1,0 +1,73 @@
+<div class="p-4">
+    <div class="container">
+        <h1>Hi {{account.firstName}}!</h1>
+        <p>You're logged in with Angular 10 & JWT!!</p>
+        
+        <!-- Calendar Section -->
+        <div class="row mt-4">
+            <!-- Calendar View -->
+            <div class="col-md-8 mb-4">
+                <div #calendarEl></div>
+            </div>
+
+            <!-- Cards Section -->
+            <div class="col-md-4 mb-4">
+                <!-- Card 1: Expense Tracker -->
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">Expense Tracker</h5>
+                        <p class="card-text">Manage your expenses efficiently.</p>
+                        <a routerLink="/expensetracker" routerLinkActive="active" class="btn btn-primary">Track Expenses</a>
+                    </div>
+                </div>
+
+                <!-- Card 2: Profile -->
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">Profile</h5>
+                        <p class="card-text">View and update your profile details.</p>
+                        <a href="#" class="btn btn-primary">View Profile</a>
+                    </div>
+                </div>
+
+                <!-- Card 3: Notifications -->
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">Notifications</h5>
+                        <p class="card-text">Check your latest notifications.</p>
+                        <a href="#" class="btn btn-primary">View Notifications</a>
+                    </div>
+                </div>
+
+                <!-- Card 4: Settings -->
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">Settings</h5>
+                        <p class="card-text">Customize your application settings.</p>
+                        <a href="#" class="btn btn-primary">Go to Settings</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Include FullCalendar script at the end of your HTML body -->
+<script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core/main.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid/main.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            plugins: [ 'dayGrid' ],
+            defaultView: 'dayGridMonth',
+            events: [
+                // Add your calendar events here (if needed)
+                // Example:
+                // { title: 'Event 1', start: '2024-05-10' },
+                // { title: 'Event 2', start: '2024-05-15', end: '2024-05-17' }
+            ]
+        });
+        calendar.render();
+    });
+</script>
