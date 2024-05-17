@@ -1,67 +1,67 @@
 {
-  "hash": "8d8a3c7d",
-  "configHash": "dda21bc2",
+  "hash": "b695d8a8",
+  "configHash": "e6cf6dea",
   "lockfileHash": "4b58d76b",
-  "browserHash": "9f0215ac",
+  "browserHash": "44adc8d4",
   "optimized": {
     "@angular/common": {
       "src": "../../../../../node_modules/@angular/common/fesm2022/common.mjs",
       "file": "@angular_common.js",
-      "fileHash": "66f2ebf4",
+      "fileHash": "f27a2a4d",
       "needsInterop": false
     },
     "@angular/common/http": {
       "src": "../../../../../node_modules/@angular/common/fesm2022/http.mjs",
       "file": "@angular_common_http.js",
-      "fileHash": "0dbcea13",
+      "fileHash": "42306f8e",
       "needsInterop": false
     },
     "@angular/core": {
       "src": "../../../../../node_modules/@angular/core/fesm2022/core.mjs",
       "file": "@angular_core.js",
-      "fileHash": "5544e25d",
+      "fileHash": "bea85f31",
       "needsInterop": false
     },
     "@angular/forms": {
       "src": "../../../../../node_modules/@angular/forms/fesm2022/forms.mjs",
       "file": "@angular_forms.js",
-      "fileHash": "ccf4ba3c",
+      "fileHash": "97e70cba",
       "needsInterop": false
     },
     "@angular/platform-browser": {
       "src": "../../../../../node_modules/@angular/platform-browser/fesm2022/platform-browser.mjs",
       "file": "@angular_platform-browser.js",
-      "fileHash": "98a895a8",
+      "fileHash": "de4ea39d",
       "needsInterop": false
     },
     "@angular/router": {
       "src": "../../../../../node_modules/@angular/router/fesm2022/router.mjs",
       "file": "@angular_router.js",
-      "fileHash": "40297999",
+      "fileHash": "6d01a807",
       "needsInterop": false
     },
     "@fullcalendar/core": {
       "src": "../../../../../node_modules/@fullcalendar/core/index.js",
       "file": "@fullcalendar_core.js",
-      "fileHash": "95c61174",
+      "fileHash": "2c7b2994",
       "needsInterop": false
     },
     "@fullcalendar/daygrid": {
       "src": "../../../../../node_modules/@fullcalendar/daygrid/index.js",
       "file": "@fullcalendar_daygrid.js",
-      "fileHash": "056d9d2a",
+      "fileHash": "cf34bc2f",
       "needsInterop": false
     },
     "rxjs": {
       "src": "../../../../../node_modules/rxjs/_esm5/index.js",
       "file": "rxjs.js",
-      "fileHash": "2d75ab68",
+      "fileHash": "e8b3bda1",
       "needsInterop": false
     },
     "rxjs/operators": {
       "src": "../../../../../node_modules/rxjs/_esm5/operators/index.js",
       "file": "rxjs_operators.js",
-      "fileHash": "d266d445",
+      "fileHash": "429fa7ef",
       "needsInterop": false
     }
   },

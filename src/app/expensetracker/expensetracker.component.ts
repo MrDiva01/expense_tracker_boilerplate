@@ -1,19 +1,56 @@
 import { Component } from '@angular/core';
 
+// Define the ExpenseEntry interface
+interface ExpenseEntry {
+  income: string;
+  date: string; // Change to string for simplicity (can be formatted as needed)
+  amount: number;
+}
+
 @Component({
   selector: 'app-expensetracker',
   templateUrl: './expensetracker.component.html'
 })
 export class ExpenseTrackerComponent {
-  newExpense = { description: '', amount: 0 }; // Initialize newExpense object
+  // Available months for selection
+  months: string[] = [
+    'January', 'February', 'March', 'April', 'May', 'June',
+    'July', 'August', 'September', 'October', 'November', 'December'
+  ];
 
-  expenses: any[] = []; // Assuming expenses is an array of objects
+  selectedMonth: string;
+  initialBudget: number;
+  budgetSet: boolean = false; // Initialize budgetSet property
+
+  newExpense: ExpenseEntry = {
+    income: '',
+    date: '',
+    amount: 0
+  };
+
+  expenseEntries: ExpenseEntry[] = [];
+
+  setBudget() {
+    // Validate input before setting budget
+    if (this.selectedMonth && this.initialBudget > 0) {
+      this.budgetSet = true; // Set budgetSet to true if valid input
+    }
+  }
 
   addExpense() {
-    // Implementation of addExpense method
-    // Example: Push new expense object to expenses array
-    this.expenses.push({ description: this.newExpense.description, amount: this.newExpense.amount });
-    // Reset form fields
-    this.newExpense = { description: '', amount: 0 };
+    // Validate and add the new expense entry
+    if (this.newExpense.income && this.newExpense.date && this.newExpense.amount > 0) {
+      this.expenseEntries.push({ ...this.newExpense }); // Add a copy of newExpense to expenseEntries
+      this.resetForm(); // Reset the form after adding the expense
+    }
+  }
+
+  resetForm() {
+    // Reset the newExpense object to clear the form
+    this.newExpense = {
+      income: '',
+      date: '',
+      amount: 0
+    };
   }
 }

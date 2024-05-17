@@ -1,28 +1,66 @@
+<div class="container">
+  <div class="row">
+    <div class="col-12 mb-4">
+      <h2 class="mb-4">Expenses Planner</h2>
+      <!-- Budget Setting Section -->
+      <div class="form-group d-flex">
+        <label for="month" class="mr-3">Month:</label>
+        <select id="month" name="month" [(ngModel)]="selectedMonth" required class="form-control flex-grow-1 mr-3">
+          <option *ngFor="let month of months" [value]="month">{{ month }}</option>
+        </select>
+        <label for="initialBudget" class="mr-3">Initial Budget:</label>
+        <input id="initialBudget" name="initialBudget" [(ngModel)]="initialBudget" required type="number" class="form-control flex-grow-1">
+        <button type="submit" class="btn btn-primary ml-3" (click)="setBudget()">Set Budget</button>
+      </div>
+      <!-- Display budget information if set -->
+      <div *ngIf="budgetSet">
+        <hr>
+        <p>Selected Month: {{ selectedMonth }}</p>
+        <p>Initial Budget: {{ initialBudget | currency:'USD':'symbol':'1.2-2' }}</p>
+      </div>
 
-<div class="col-md-4 mb-4">
-  <div class="card">
-    <div class="card-header">
-      <h5>Expense Tracker</h5>
-    </div>
-    <div class="card-body">
-      <form (ngSubmit)="addExpense()">
-        <div class="form-group">
-          <label for="description">Description:</label>
-          <input id="description" name="description" [(ngModel)]="newExpense.description" required class="form-control">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="card">
+              <div class="card-body">
+                <h2 class="mb-4">Expense Entry</h2>
+                <div class="form-group">
+                  <label for="income">Income:</label>
+                  <input id="income" name="income" [(ngModel)]="newExpense.income" required type="text" class="form-control">
+                </div>
+                <div class="form-group">
+                  <label for="date">Date:</label>
+                  <input id="date" name="date" [(ngModel)]="newExpense.date" required type="date" class="form-control">
+                </div>
+                <div class="form-group">
+                  <label for="amount">Amount:</label>
+                  <input id="amount" name="amount" [(ngModel)]="newExpense.amount" required type="number" class="form-control">
+                </div>
+                <button type="button" class="btn btn-primary" (click)="addExpense()">Add Expense</button>
+              </div>
+              <hr>
+              <!-- Display expense entries in a table -->
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Income</th>
+                    <th>Date</th>
+                    <th>Amount</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let expense of expenseEntries">
+                    <td>{{ expense.income }}</td>
+                    <td>{{ expense.date }}</td>
+                    <td>{{ expense.amount | currency:'USD':'symbol':'1.2-2' }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
-        <div class="form-group">
-          <label for="amount">Amount:</label>
-          <input id="amount" name="amount" [(ngModel)]="newExpense.amount" required class="form-control">
-        </div>
-        <button type="submit" class="btn btn-primary">Add Expense</button>
-      </form>
-    </div>
-    <div class="card-footer">
-      <ul>
-        <li *ngFor="let expense of expenses">
-          {{ expense.description }} - {{ expense.amount }}
-        </li>
-      </ul>
+      </div>
     </div>
   </div>
 </div>

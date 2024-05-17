@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            background-color: #f8f9fa; /* Light background color */
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #333; /* Dark text color for contrast */
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .title {
+            text-align: center;
+            font-family: 'Arial Black', Arial, sans-serif; /* Arial Black font */
+            font-size: 36px; /* Larger font size */
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            padding: 20px;
+        }
+
+        .card-header {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"], input[type="date"], select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .btn-primary {
+            background-color: #007bff; /* Blue button color */
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3; /* Darker blue on hover */
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid #ccc;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">CATEGORIZE EXPENSE</h1>
+        <div class="card">
+            <div class="card-header">
+                <h5>Add New Expense</h5>
+            </div>
+            <div class="card-body">
+                <form (ngSubmit)="addExpense()">
+                    <div class="form-group">
+                        <label for="description">Description:</label>
+                        <input id="description" name="description" [(ngModel)]="newExpense.description" required class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="amount">Amount:</label>
+                        <input id="amount" name="amount" [(ngModel)]="newExpense.amount" required class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="date">Date:</label>
+                        <input id="date" name="date" [(ngModel)]="newExpense.date" required class="form-control" type="date">
+                    </div>
+                    <div class="form-group">
+                        <label for="category">Category:</label>
+                        <select id="category" name="category" [(ngModel)]="selectedCategory" required class="form-control">
+                            <option value="foods">Foods</option>
+                            <option value="bills">Bills</option>
+                            <option value="savings">Savings</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add Expense</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">Foods</div>
+            <div class="card-body">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Description</th>
+                            <th>Date</th>
+                            <th>Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let food of foods">
+                            <td>{{ food.description }}</td>
+                            <td>{{ food.date }}</td>
+                            <td>{{ food.amount }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">Bills</div>
+            <div class="card-body">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Description</th>
+                            <th>Date</th>
+                            <th>Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let bill of bills">
+                            <td>{{ bill.description }}</td>
+                            <td>{{ bill.date }}</td>
+                            <td>{{ bill.amount }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">Savings</div>
+            <div class="card-body">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Description</th>
+                            <th>Date</th>
+                            <th>Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let saving of savings">
+                            <td>{{ saving.description }}</td>
+                            <td>{{ saving.date }}</td>
+                            <td>{{ saving.amount }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <button class="btn btn-primary" (click)="saveExpenses()">Save</button>
+    </div>
+</body>
+</html>

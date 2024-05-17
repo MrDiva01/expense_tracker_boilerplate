@@ -1,12 +1,18 @@
 <div class="p-4">
     <div class="container">
-        <h1>Hi {{account.firstName}}!</h1>
-        <p>You're logged in with Angular 10 & JWT!!</p>
+        <div class="card mb-3">
+                <h1>Hi {{account.firstName}}!</h1>
+                <p>Welcome to IT-PID your trusted budget tracker</p>
+        </div>
         
-        <!-- Calendar Section -->
         <div class="row mt-4">
             <!-- Calendar View -->
             <div class="col-md-8 mb-4">
+                <div class="input-group mb-3">
+                    <input type="date" [(ngModel)]="eventDate" class="form-control" placeholder="YYYY-MM-DD">
+                    <input type="text" [(ngModel)]="eventDescription" class="form-control" placeholder="Event Description">
+                    <button (click)="addEvent()" class="btn btn-primary">Add Event</button>
+                </div>
                 <div #calendarEl></div>
             </div>
 
@@ -21,12 +27,12 @@
                     </div>
                 </div>
 
-                <!-- Card 2: Profile -->
+                <!-- Card 2: Category-Based -->
                 <div class="card mb-4">
                     <div class="card-body">
-                        <h5 class="card-title">Profile</h5>
+                        <h5 class="card-title">Categorize expenses</h5>
                         <p class="card-text">View and update your profile details.</p>
-                        <a href="#" class="btn btn-primary">View Profile</a>
+                        <a routerLink="/category-based" routerLinkActive="active" class="btn btn-primary">Categorize Expenses</a>
                     </div>
                 </div>
 
@@ -51,23 +57,3 @@
         </div>
     </div>
 </div>
-
-<!-- Include FullCalendar script at the end of your HTML body -->
-<script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core/main.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid/main.min.js"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        var calendarEl = document.getElementById('calendar');
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-            plugins: [ 'dayGrid' ],
-            defaultView: 'dayGridMonth',
-            events: [
-                // Add your calendar events here (if needed)
-                // Example:
-                // { title: 'Event 1', start: '2024-05-10' },
-                // { title: 'Event 2', start: '2024-05-15', end: '2024-05-17' }
-            ]
-        });
-        calendar.render();
-    });
-</script>

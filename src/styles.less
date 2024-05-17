@@ -12,9 +12,107 @@ a { cursor: pointer; }
     border-bottom: 1px solid #ccc;
 }
 
+.navbar-nav {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+  
+  .navbar-purple {
+    background-color: #966FD6 !important; /* Change background color to #C3B1E1 */
+}
+
+.navbar-nav .nav-item {
+    margin: 0 10px; /* Optional: Add some spacing between nav items */
+    color: white; /* Set font color to white */
+}
+
 .btn-delete-account {
     width: 40px;
     text-align: center;
     box-sizing: content-box;
 }
 
+.input-group {
+    display: flex;
+    align-items: center;
+}
+
+.input-group > * {
+    margin-right: 10px;
+}
+
+.input-group > *:last-child {
+    margin-right: 0;
+}
+
+.card.mb-4 {
+    border: 2px solid #966FD6;
+    border-radius: 5px; // Optional: Add border radius for rounded corners
+    font-weight: bold;
+    outline: 2px solid #966FD6; // Create an outline with the same color
+    box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.5); // Apply a blur effect to the outline
+}
+
+.card.mb-3 {
+    border: 2px solid #966FD6;
+    border-radius: 5px; // Optional: Add border radius for rounded corners
+    font-weight: bold;
+    outline: 2px solid #966FD6; // Create an outline with the same color
+    box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.5); // Apply a blur effect to the outline
+    display: flex; /* Use flexbox layout */
+    flex-direction: column; /* Stack items vertically */
+    align-items: center; /* Center items horizontally */
+    justify-content: center; /* Center items vertically */
+    text-align: center; /* Align text content to center */
+    padding: 20px; /* Add padding for spacing */
+}
+
+/*-----------------------NAG EDIt JO DRI YOT */
+.profile-header {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 20px;
+}
+
+.profile-picture {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-right: 20px; /* Adjust the spacing as needed */
+}
+
+.profile-img {
+    width: 200px; /* Adjust size as needed */
+    height: 200px;
+    border-radius: 80%;
+    object-fit: cover;
+    margin-bottom: 10px;
+}
+/* Add these styles to your styles.less file */
+
+.button-container {
+  display: flex;
+  flex-direction: row; /* Display buttons horizontally */
+}
+
+/* Adjust button styles as needed */
+button {
+  padding: 5px 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-bottom: 10px;
+  margin-right: 10px; /* Add margin between buttons */
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+
+h1 {
+    margin-top: 0;
+}
