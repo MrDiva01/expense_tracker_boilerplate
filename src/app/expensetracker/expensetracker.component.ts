@@ -2,8 +2,14 @@ import { Component } from '@angular/core';
 
 // Define the ExpenseEntry interface
 interface ExpenseEntry {
-  income: string;
-  date: string; // Change to string for simplicity (can be formatted as needed)
+  description: string;
+  date: string;
+  amount: number;
+}
+
+interface IncomeEntry {
+  description: string;
+  date: string;
   amount: number;
 }
 
@@ -12,7 +18,6 @@ interface ExpenseEntry {
   templateUrl: './expensetracker.component.html'
 })
 export class ExpenseTrackerComponent {
-  // Available months for selection
   months: string[] = [
     'January', 'February', 'March', 'April', 'May', 'June',
     'July', 'August', 'September', 'October', 'November', 'December'
@@ -20,37 +25,135 @@ export class ExpenseTrackerComponent {
 
   selectedMonth: string;
   initialBudget: number;
-  budgetSet: boolean = false; // Initialize budgetSet property
+  budgetSet: boolean = false;
+  savedPlans: any[] = []
+
 
   newExpense: ExpenseEntry = {
-    income: '',
+    description: '',
     date: '',
     amount: 0
   };
 
+  newIncome: IncomeEntry = {
+    description: '',
+    date: '',
+    amount: 0
+  };
+
+  IncomeEntries: IncomeEntry[] = [];
   expenseEntries: ExpenseEntry[] = [];
+  totalAmount: number = 0;
 
   setBudget() {
-    // Validate input before setting budget
     if (this.selectedMonth && this.initialBudget > 0) {
-      this.budgetSet = true; // Set budgetSet to true if valid input
+      this.budgetSet = true;
     }
   }
 
   addExpense() {
-    // Validate and add the new expense entry
-    if (this.newExpense.income && this.newExpense.date && this.newExpense.amount > 0) {
-      this.expenseEntries.push({ ...this.newExpense }); // Add a copy of newExpense to expenseEntries
-      this.resetForm(); // Reset the form after adding the expense
+    if (this.newExpense.description && this.newExpense.date && this.newExpense.amount > 0) {
+      this.expenseEntries.push({ ...this.newExpense });
+      this.totalAmount += this.newExpense.amount;
+      this.resetForm();
     }
   }
 
+  editExpense(index: number) {
+    // Retrieve the expense entry based on the index
+    const editedExpense = this.expenseEntries[index];
+  
+    // Assign the values of the edited expense entry to newExpense for editing
+    this.newExpense = { ...editedExpense };
+  
+    // Remove the expense entry from the list
+    this.expenseEntries.splice(index, 1);
+  }
+  
+  deleteExpense(index: number) {
+    // Remove the expense entry from the list based on the index
+    this.expenseEntries.splice(index, 1);
+  }
+  
+
+  addIncome() {
+    if (this.newIncome.description && this.newIncome.date && this.newIncome.amount > 0) {
+      this.IncomeEntries.push({ ...this.newIncome });
+      this.totalAmount += this.newExpense.amount;
+      this.resetForm();
+    }
+  }
+
+  editIncome(index: number) {
+    // Retrieve the income entry based on the index
+    const editedIncome = this.IncomeEntries[index];
+  
+    // Assign the values of the edited income entry to newIncome for editing
+    this.newIncome = { ...editedIncome };
+  
+    // Remove the income entry from the list
+    this.IncomeEntries.splice(index, 1);
+  }
+  
+  deleteIncome(index: number) {
+    // Remove the income entry from the list based on the index
+    this.IncomeEntries.splice(index, 1);
+  }
+  
+
+
   resetForm() {
-    // Reset the newExpense object to clear the form
     this.newExpense = {
-      income: '',
+      description: '',
       date: '',
       amount: 0
     };
+
+    this.newIncome = {
+     description: '',
+     date: '',
+     amount: 0
+    };
   }
+  
+ 
+
+  totalIncome() {
+    return this.IncomeEntries.reduce((sum, entry) => sum + entry.amount, 0);
+  }
+
+  totalExpenses() {
+    return this.expenseEntries.reduce((sum, entry) => sum + entry.amount, 0);
+  }
+
+  totalSavings() {
+    return this.totalIncome() - this.initialBudget - this.totalExpenses();
+  }
+
+  savePlan() {
+    // Create an object representing the current plan
+    const planDetails = {
+      month: this.selectedMonth,
+      initialBudget: this.initialBudget,
+      totalIncome: this.totalIncome(),
+      totalExpenses: this.totalExpenses(),
+      totalSavings: this.totalSavings()
+    };
+
+    // Push the current plan details into the array of saved plans
+    this.savedPlans.push(planDetails);
+  }
+  
+  createNewPlan() {
+    // Reset the form and start a new plan
+    this.selectedMonth = '';
+    this.initialBudget = 0;
+    this.budgetSet = false;
+    this.newIncome = { description: '', date: '', amount: 0 };
+    this.newExpense = { description: '', date: '', amount: 0 };
+    this.IncomeEntries = [];
+    this.expenseEntries = [];
+    this.totalAmount = 0;
+  }
+  
 }

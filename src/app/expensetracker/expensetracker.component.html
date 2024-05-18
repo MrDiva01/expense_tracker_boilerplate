@@ -1,7 +1,7 @@
 <div class="container">
   <div class="row">
     <div class="col-12 mb-4">
-      <h2 class="mb-4">Expenses Planner</h2>
+      <h2 class="mb-4 text-center">Expenses Planner</h2>
       <!-- Budget Setting Section -->
       <div class="form-group d-flex">
         <label for="month" class="mr-3">Month:</label>
@@ -16,49 +16,166 @@
       <div *ngIf="budgetSet">
         <hr>
         <p>Selected Month: {{ selectedMonth }}</p>
-        <p>Initial Budget: {{ initialBudget | currency:'USD':'symbol':'1.2-2' }}</p>
+        <p>Initial Budget: {{ initialBudget | currency:'PHP':'symbol':'1.2-2' }}</p>
       </div>
+    </div>
+  </div>
+</div>
 
-      <div class="container">
-        <div class="row">
-          <div class="col-md-6">
-            <div class="card">
-              <div class="card-body">
-                <h2 class="mb-4">Expense Entry</h2>
-                <div class="form-group">
-                  <label for="income">Income:</label>
-                  <input id="income" name="income" [(ngModel)]="newExpense.income" required type="text" class="form-control">
-                </div>
-                <div class="form-group">
-                  <label for="date">Date:</label>
-                  <input id="date" name="date" [(ngModel)]="newExpense.date" required type="date" class="form-control">
-                </div>
-                <div class="form-group">
-                  <label for="amount">Amount:</label>
-                  <input id="amount" name="amount" [(ngModel)]="newExpense.amount" required type="number" class="form-control">
-                </div>
-                <button type="button" class="btn btn-primary" (click)="addExpense()">Add Expense</button>
-              </div>
-              <hr>
-              <!-- Display expense entries in a table -->
-              <table class="table">
-                <thead>
-                  <tr>
-                    <th>Income</th>
-                    <th>Date</th>
-                    <th>Amount</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let expense of expenseEntries">
-                    <td>{{ expense.income }}</td>
-                    <td>{{ expense.date }}</td>
-                    <td>{{ expense.amount | currency:'USD':'symbol':'1.2-2' }}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+<div class="container">
+  <div class="row">
+    <!-- Income Form Container -->
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-body">
+          <h2 class="mb-4">Income</h2>
+          <div class="form-group">
+            <label for="incomeDescription">Description</label>
+            <input id="incomeDescription" name="description" [(ngModel)]="newIncome.description" required type="text" class="form-control">
           </div>
+          <div class="form-group">
+            <label for="incomeDate">Date:</label>
+            <input id="incomeDate" name="date" [(ngModel)]="newIncome.date" required type="date" class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="incomeAmount">Amount:</label>
+            <input id="incomeAmount" name="amount" [(ngModel)]="newIncome.amount" required type="number" class="form-control">
+          </div>
+          <button type="button" class="btn btn-primary" (click)="addIncome()">Add Income</button>
+          
+          <!-- Total Income Display -->
+          <div class="mt-4">
+            <h3>Total Income: {{ totalIncome() | currency:'PHP':'symbol':'1.2-2' }}</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Income Table Container -->
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-body">
+          <h2 class="mb-4">Income Entries</h2>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Description</th>
+                <th>Date</th>
+                <th>Amount</th>
+                <th>Actions</th> <!-- Added column for actions -->
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let income of IncomeEntries; let i = index">
+                <td>{{ income.description }}</td>
+                <td>{{ income.date }}</td>
+                <td>{{ income.amount | currency:'PHP':'symbol':'1.2-2' }}</td>
+                <td>
+                  <!-- Edit button -->
+                  <button type="button" class="btn btn-sm btn-info" (click)="editIncome(i)">Edit</button>
+                  <!-- Delete button -->
+                  <button type="button" class="btn btn-sm btn-danger" (click)="deleteIncome(i)">Delete</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    
+
+<div class="container">
+  <div class="row">
+    <!-- Expense Form Container -->
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-body">
+          <h2 class="mb-4">Expenses</h2>
+          <div class="form-group">
+            <label for="expenseDescription">Description</label>
+            <input id="expenseDescription" name="description" [(ngModel)]="newExpense.description" required type="text" class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="expenseDate">Date:</label>
+            <input id="expenseDate" name="date" [(ngModel)]="newExpense.date" required type="date" class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="expenseAmount">Amount:</label>
+            <input id="expenseAmount" name="amount" [(ngModel)]="newExpense.amount" required type="number" class="form-control">
+          </div>
+          <button type="button" class="btn btn-primary" (click)="addExpense()">Add Expense</button>
+          
+          <!-- Total Expenses Display -->
+          <div class="mt-4">
+            <h3>Total Expenses: {{ totalExpenses() | currency:'PHP':'symbol':'1.2-2' }}</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Expense Table Container -->
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-body">
+          <h2 class="mb-4">Expense Entries</h2>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Description</th>
+                <th>Date</th>
+                <th>Amount</th>
+                <th>Actions</th> <!-- Added column for actions -->
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let expense of expenseEntries; let i = index">
+                <td>{{ expense.description }}</td>
+                <td>{{ expense.date }}</td>
+                <td>{{ expense.amount | currency:'PHP':'symbol':'1.2-2' }}</td>
+                <td>
+                  <!-- Edit button -->
+                  <button type="button" class="btn btn-sm btn-info" (click)="editExpense(i)">Edit</button>
+                  <!-- Delete button -->
+                  <button type="button" class="btn btn-sm btn-danger" (click)="deleteExpense(i)">Delete</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    
+
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <h2 class="mb-4">Summary</h2>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Month</th>
+                <th>Initial Budget</th>
+                <th>Total Income</th>
+                <th>Total Expenses</th>
+                <th>Total Savings</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>{{ selectedMonth }}</td>
+                <td>{{ initialBudget | currency:'PHP':'symbol':'1.2-2' }}</td>
+                <td>{{ totalIncome() | currency:'PHP':'symbol':'1.2-2' }}</td>
+                <td>{{ totalExpenses() | currency:'PHP':'symbol':'1.2-2' }}</td>
+                <td>{{ totalSavings() | currency:'PHP':'symbol':'1.2-2' }}</td>
+              </tr>
+            </tbody>
+          </table>
+          <!-- Save Plan button -->
+          <button type="button" class="btn btn-primary" (click)="savePlan()">Save Plan</button>
+          <!-- Create New Plan button -->
+          <button type="button" class="btn btn-secondary" (click)="createNewPlan()">Create New Plan</button>
         </div>
       </div>
     </div>

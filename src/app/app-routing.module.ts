@@ -8,13 +8,14 @@ import { AuthGuard } from './_helpers';
 import { Role } from './_models';
 import { ExpenseTrackerComponent } from './expensetracker';
 import { CategoryBasedComponent } from './category-based';
-
+import { HistoryComponent } from './history';
 
 const accountModule = () => import('./account/account.module').then(x => x.AccountModule);
 const adminModule = () => import('./admin/admin.module').then(x => x.AdminModule);
 const profileModule = () => import('./profile/profile.module').then(x => x.ProfileModule);
 const ExpensetrackerModule = () => import('./expensetracker/expensetracker.module').then(x => x.ExpensetrackerModule);
 const CategoryBased = () => import('./category-based/category-based.module').then(x => x.CategoryBasedModule);
+const HistoryModule = () => import('./history/history.module').then(x => x.HistoryModule);
 
 const routes: Routes = [
     { path: '', component: HomeComponent, canActivate: [AuthGuard] },
@@ -23,6 +24,7 @@ const routes: Routes = [
     { path: 'admin', loadChildren: adminModule, canActivate: [AuthGuard], data: { roles: [Role.Admin] } },
     { path: 'expensetracker', component: ExpenseTrackerComponent, canActivate: [AuthGuard] }, // New route for ExpenseTrackerComponent
     { path: 'category-based', component: CategoryBasedComponent, canActivate: [AuthGuard] }, // New route for CategoryBasedComponent
+    { path: 'history', component: HistoryComponent, canActivate: [AuthGuard] }, // New route for HistoryComponent
     // otherwise redirect to home
     { path: '**', redirectTo: '' }
 ];

@@ -13,6 +13,7 @@ import { AppComponent } from './app.component';
 import { AlertComponent } from './_components';
 import { HomeComponent } from './home';
 
+
 @NgModule({
     imports: [
         BrowserModule,
@@ -25,6 +26,7 @@ import { HomeComponent } from './home';
         AppComponent,
         AlertComponent,
         HomeComponent
+        
     ],
     providers: [
         { provide: APP_INITIALIZER, useFactory: appInitializer, multi: true, deps: [AccountService] },
