@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
+import { ExpenseTrackerService } from './expensetracker.service';
+
 
 // Define the ExpenseEntry interface
-interface ExpenseEntry {
+export interface ExpenseEntry {
   description: string;
   date: string;
   amount: number;
@@ -130,6 +132,8 @@ export class ExpenseTrackerComponent {
     return this.totalIncome() - this.initialBudget - this.totalExpenses();
   }
 
+  constructor(private expenseTrackerService: ExpenseTrackerService) {}
+
   savePlan() {
     // Create an object representing the current plan
     const planDetails = {
@@ -141,7 +145,7 @@ export class ExpenseTrackerComponent {
     };
 
     // Push the current plan details into the array of saved plans
-    this.savedPlans.push(planDetails);
+    this.expenseTrackerService.updateExpenseEntries(this.expenseEntries);
   }
   
   createNewPlan() {
