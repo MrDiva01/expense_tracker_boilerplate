@@ -38,8 +38,8 @@ export class CategoryService {
         return this.http.post(baseUrl, params);
     }
     
-    delete(id: string) {
-        return this.http.delete(`${baseUrl}/${id}`)
+    delete(id: string, category: string) {
+        return this.http.delete(`${baseUrl}/${id}/${category}`)
             .pipe(finalize(() => {
             }));
     }
