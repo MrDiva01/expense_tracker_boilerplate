@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ExpenseTrackerService } from '../expensetracker/expensetracker.service';
-import { ExpenseEntry } from '../expensetracker/expensetracker.component'; // Adjust the path as necessary
+import { ExpenseTrackerService } from '../_services/expensetracker.service';
+import { ExpenseEntry } from '../_models/expense'; // Adjust the path as necessary
 
 @Component({
   selector: 'app-history',

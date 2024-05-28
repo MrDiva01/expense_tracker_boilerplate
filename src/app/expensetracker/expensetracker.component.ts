@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { ExpenseTrackerService } from './expensetracker.service';
-
+import { MatTableDataSource } from '@angular/material/table';
+import { ExpenseTrackerService } from '../_services/expensetracker.service';
 
 // Define the ExpenseEntry interface
 export interface ExpenseEntry {
@@ -9,7 +9,7 @@ export interface ExpenseEntry {
   amount: number;
 }
 
-interface IncomeEntry {
+export interface IncomeEntry {
   description: string;
   date: string;
   amount: number;
@@ -21,31 +21,35 @@ interface IncomeEntry {
 })
 export class ExpenseTrackerComponent {
   months: string[] = [
-    'January', 'February', 'March', 'April', 'May', 'June',
+    'January', 'February', 'March', 'April', 'May', 'June', 
     'July', 'August', 'September', 'October', 'November', 'December'
   ];
-
   selectedMonth: string;
   initialBudget: number;
   budgetSet: boolean = false;
-  savedPlans: any[] = []
-
-
+  savedPlans: any[] = [];
+  
   newExpense: ExpenseEntry = {
     description: '',
     date: '',
-    amount: 0
+    amount: 0,
   };
 
   newIncome: IncomeEntry = {
     description: '',
     date: '',
-    amount: 0
+    amount: 0,
   };
 
   IncomeEntries: IncomeEntry[] = [];
   expenseEntries: ExpenseEntry[] = [];
+
+  dataSourceIncome = new MatTableDataSource(this.IncomeEntries);
+  dataSourceExpense = new MatTableDataSource(this.expenseEntries);
+
   totalAmount: number = 0;
+
+  constructor(private expenseTrackerService: ExpenseTrackerService) {}
 
   setBudget() {
     if (this.selectedMonth && this.initialBudget > 0) {
@@ -57,68 +61,51 @@ export class ExpenseTrackerComponent {
     if (this.newExpense.description && this.newExpense.date && this.newExpense.amount > 0) {
       this.expenseEntries.push({ ...this.newExpense });
       this.totalAmount += this.newExpense.amount;
-      this.resetForm();
+      this.dataSourceExpense.data = this.expenseEntries;
+      this.resetExpenseForm();
     }
   }
 
   editExpense(index: number) {
-    // Retrieve the expense entry based on the index
     const editedExpense = this.expenseEntries[index];
-  
-    // Assign the values of the edited expense entry to newExpense for editing
     this.newExpense = { ...editedExpense };
-  
-    // Remove the expense entry from the list
     this.expenseEntries.splice(index, 1);
+    this.dataSourceExpense.data = this.expenseEntries;
   }
-  
+
   deleteExpense(index: number) {
-    // Remove the expense entry from the list based on the index
     this.expenseEntries.splice(index, 1);
+    this.dataSourceExpense.data = this.expenseEntries;
   }
-  
 
   addIncome() {
     if (this.newIncome.description && this.newIncome.date && this.newIncome.amount > 0) {
       this.IncomeEntries.push({ ...this.newIncome });
-      this.totalAmount += this.newExpense.amount;
-      this.resetForm();
+      this.totalAmount += this.newIncome.amount;
+      this.dataSourceIncome.data = this.IncomeEntries;
+      this.resetIncomeForm();
     }
   }
 
   editIncome(index: number) {
-    // Retrieve the income entry based on the index
     const editedIncome = this.IncomeEntries[index];
-  
-    // Assign the values of the edited income entry to newIncome for editing
     this.newIncome = { ...editedIncome };
-  
-    // Remove the income entry from the list
     this.IncomeEntries.splice(index, 1);
+    this.dataSourceIncome.data = this.IncomeEntries;
   }
-  
+
   deleteIncome(index: number) {
-    // Remove the income entry from the list based on the index
     this.IncomeEntries.splice(index, 1);
+    this.dataSourceIncome.data = this.IncomeEntries;
   }
-  
 
-
-  resetForm() {
-    this.newExpense = {
-      description: '',
-      date: '',
-      amount: 0
-    };
-
-    this.newIncome = {
-     description: '',
-     date: '',
-     amount: 0
-    };
+  resetExpenseForm() {
+    this.newExpense = { description: '', date: '', amount: 0 };
   }
-  
- 
+
+  resetIncomeForm() {
+    this.newIncome = { description: '', date: '', amount: 0 };
+  }
 
   totalIncome() {
     return this.IncomeEntries.reduce((sum, entry) => sum + entry.amount, 0);
@@ -132,10 +119,7 @@ export class ExpenseTrackerComponent {
     return this.totalIncome() - this.initialBudget - this.totalExpenses();
   }
 
-  constructor(private expenseTrackerService: ExpenseTrackerService) {}
-
   savePlan() {
-    // Create an object representing the current plan
     const planDetails = {
       month: this.selectedMonth,
       initialBudget: this.initialBudget,
@@ -144,20 +128,19 @@ export class ExpenseTrackerComponent {
       totalSavings: this.totalSavings()
     };
 
-    // Push the current plan details into the array of saved plans
-    this.expenseTrackerService.updateExpenseEntries(this.expenseEntries);
+    this.expenseTrackerService.updateLocalExpenseEntries(this.expenseEntries);
   }
-  
+
   createNewPlan() {
-    // Reset the form and start a new plan
     this.selectedMonth = '';
     this.initialBudget = 0;
     this.budgetSet = false;
-    this.newIncome = { description: '', date: '', amount: 0 };
-    this.newExpense = { description: '', date: '', amount: 0 };
+    this.newIncome = {description: '', date: '', amount: 0};
+    this.newExpense = {description: '', date: '', amount: 0};
     this.IncomeEntries = [];
     this.expenseEntries = [];
+    this.dataSourceIncome.data = this.IncomeEntries;
+    this.dataSourceExpense.data = this.expenseEntries;
     this.totalAmount = 0;
   }
-  
 }

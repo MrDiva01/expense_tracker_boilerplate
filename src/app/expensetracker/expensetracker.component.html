@@ -9,7 +9,8 @@
           <option *ngFor="let month of months" [value]="month">{{ month }}</option>
         </select>
         <label for="initialBudget" class="mr-3">Initial Budget:</label>
-        <input id="initialBudget" name="initialBudget" [(ngModel)]="initialBudget" required type="number" class="form-control flex-grow-1">
+        <input id="initialBudget" name="initialBudget" [(ngModel)]="initialBudget" required type="number"
+          class="form-control flex-grow-1">
         <button type="submit" class="btn btn-primary ml-3" (click)="setBudget()">Set Budget</button>
       </div>
       <!-- Display budget information if set -->
@@ -20,134 +21,135 @@
       </div>
     </div>
   </div>
-</div>
-
-<div class="container">
   <div class="row">
     <!-- Income Form Container -->
-    <div class="col-md-6">
-      <div class="card">
-        <div class="card-body">
-          <h2 class="mb-4">Income</h2>
-          <div class="form-group">
+    <div class="card">
+      <div class="card-body">
+        <h2 class="mb-4">Income</h2>
+        <div class="form-group row">
+          <div class="col-sm-4">
             <label for="incomeDescription">Description</label>
-            <input id="incomeDescription" name="description" [(ngModel)]="newIncome.description" required type="text" class="form-control">
+            <input id="incomeDescription" name="description" [(ngModel)]="newIncome.description" required type="text"
+              class="form-control">
           </div>
-          <div class="form-group">
+          <div class="col-sm-4">
             <label for="incomeDate">Date:</label>
             <input id="incomeDate" name="date" [(ngModel)]="newIncome.date" required type="date" class="form-control">
           </div>
-          <div class="form-group">
+          <div class="col-sm-4">
             <label for="incomeAmount">Amount:</label>
-            <input id="incomeAmount" name="amount" [(ngModel)]="newIncome.amount" required type="number" class="form-control">
-          </div>
-          <button type="button" class="btn btn-primary" (click)="addIncome()">Add Income</button>
-          
-          <!-- Total Income Display -->
-          <div class="mt-4">
-            <h3>Total Income: {{ totalIncome() | currency:'PHP':'symbol':'1.2-2' }}</h3>
+            <input id="incomeAmount" name="amount" [(ngModel)]="newIncome.amount" required type="number"
+              class="form-control">
           </div>
         </div>
-      </div>
-    </div>
-    
-    <!-- Income Table Container -->
-    <div class="col-md-6">
-      <div class="card">
-        <div class="card-body">
-          <h2 class="mb-4">Income Entries</h2>
-          <table class="table">
-            <thead>
-              <tr>
-                <th>Description</th>
-                <th>Date</th>
-                <th>Amount</th>
-                <th>Actions</th> <!-- Added column for actions -->
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let income of IncomeEntries; let i = index">
-                <td>{{ income.description }}</td>
-                <td>{{ income.date }}</td>
-                <td>{{ income.amount | currency:'PHP':'symbol':'1.2-2' }}</td>
-                <td>
-                  <!-- Edit button -->
-                  <button type="button" class="btn btn-sm btn-info" (click)="editIncome(i)">Edit</button>
-                  <!-- Delete button -->
-                  <button type="button" class="btn btn-sm btn-danger" (click)="deleteIncome(i)">Delete</button>
-                </td>
-              </tr>
-            </tbody>
+        <div class="row">
+          <div class="col-sm-12">
+            <button type="button" class="btn btn-primary float-right" (click)="addIncome()">Add Income</button>
+          </div>
+        </div>
+        <!-- Total Income Display -->
+        <div class="mt-4">
+          <h3>Total Income: {{ totalIncome() | currency:'PHP':'symbol':'1.2-2' }}</h3>
+        </div>
+        <!-- Income Table -->
+        <div class="table-responsive mt-4">
+          <table mat-table [dataSource]="dataSourceIncome" class="mat-elevation-z8">
+            <!-- Description Column -->
+            <ng-container matColumnDef="description">
+              <th mat-header-cell *matHeaderCellDef> Description </th>
+              <td mat-cell *matCellDef="let income"> {{ income.description }} </td>
+            </ng-container>
+            <!-- Date Column -->
+            <ng-container matColumnDef="date">
+              <th mat-header-cell *matHeaderCellDef> Date </th>
+              <td mat-cell *matCellDef="let income"> {{ income.date }} </td>
+            </ng-container>
+            <!-- Amount Column -->
+            <ng-container matColumnDef="amount">
+              <th mat-header-cell *matHeaderCellDef> Amount </th>
+              <td mat-cell *matCellDef="let income"> {{ income.amount | currency:'PHP':'symbol':'1.2-2' }} </td>
+            </ng-container>
+            <!-- Actions Column -->
+            <ng-container matColumnDef="actions">
+              <th mat-header-cell *matHeaderCellDef> Actions </th>
+              <td mat-cell *matCellDef="let income; let i = index">
+                <button type="button" class="btn btn-sm btn-info" (click)="editIncome(i)">Edit</button>
+                <button type="button" class="btn btn-sm btn-danger" (click)="deleteIncome(i)">Delete</button>
+              </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="['description', 'date', 'amount', 'actions']"></tr>
+            <tr mat-row *matRowDef="let income; columns: ['description', 'date', 'amount', 'actions'];"></tr>
           </table>
         </div>
       </div>
     </div>
-    
-
-<div class="container">
+  </div>
+  <!-- Expense Form Container -->
   <div class="row">
-    <!-- Expense Form Container -->
-    <div class="col-md-6">
-      <div class="card">
-        <div class="card-body">
-          <h2 class="mb-4">Expenses</h2>
-          <div class="form-group">
+    <div class="card">
+      <div class="card-body">
+        <h2 class="mb-4">Expenses</h2>
+        <div class="form-group row">
+          <div class="col-sm-4">
             <label for="expenseDescription">Description</label>
-            <input id="expenseDescription" name="description" [(ngModel)]="newExpense.description" required type="text" class="form-control">
+            <input id="expenseDescription" name="description" [(ngModel)]="newExpense.description" required type="text"
+              class="form-control">
           </div>
-          <div class="form-group">
+          <div class="col-sm-4">
             <label for="expenseDate">Date:</label>
             <input id="expenseDate" name="date" [(ngModel)]="newExpense.date" required type="date" class="form-control">
           </div>
-          <div class="form-group">
+          <div class="col-sm-4">
             <label for="expenseAmount">Amount:</label>
-            <input id="expenseAmount" name="amount" [(ngModel)]="newExpense.amount" required type="number" class="form-control">
-          </div>
-          <button type="button" class="btn btn-primary" (click)="addExpense()">Add Expense</button>
-          
-          <!-- Total Expenses Display -->
-          <div class="mt-4">
-            <h3>Total Expenses: {{ totalExpenses() | currency:'PHP':'symbol':'1.2-2' }}</h3>
+            <input id="expenseAmount" name="amount" [(ngModel)]="newExpense.amount" required type="number"
+              class="form-control">
           </div>
         </div>
-      </div>
-    </div>
-    
-    <!-- Expense Table Container -->
-    <div class="col-md-6">
-      <div class="card">
-        <div class="card-body">
-          <h2 class="mb-4">Expense Entries</h2>
-          <table class="table">
-            <thead>
-              <tr>
-                <th>Description</th>
-                <th>Date</th>
-                <th>Amount</th>
-                <th>Actions</th> <!-- Added column for actions -->
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let expense of expenseEntries; let i = index">
-                <td>{{ expense.description }}</td>
-                <td>{{ expense.date }}</td>
-                <td>{{ expense.amount | currency:'PHP':'symbol':'1.2-2' }}</td>
-                <td>
-                  <!-- Edit button -->
-                  <button type="button" class="btn btn-sm btn-info" (click)="editExpense(i)">Edit</button>
-                  <!-- Delete button -->
-                  <button type="button" class="btn btn-sm btn-danger" (click)="deleteExpense(i)">Delete</button>
-                </td>
-              </tr>
-            </tbody>
+        <div class="row">
+          <div class="col-sm-12">
+            <button type="button" class="btn btn-primary float-right" (click)="addExpense()">Add Expense</button>
+          </div>
+        </div>
+        <!-- Total Expenses Display -->
+        <div class="mt-4">
+          <h3>Total Expenses: {{ totalExpenses() | currency:'PHP':'symbol':'1.2-2' }}</h3>
+        </div>
+        <!-- Expense Table -->
+        <div class="table-responsive mt-4">
+          <table mat-table [dataSource]="dataSourceExpense" class="mat-elevation-z8">
+            <!-- Description Column -->
+            <ng-container matColumnDef="description">
+              <th mat-header-cell *matHeaderCellDef> Description </th>
+              <td mat-cell *matCellDef="let expense"> {{ expense.description }} </td>
+            </ng-container>
+            <!-- Date Column -->
+            <ng-container matColumnDef="date">
+              <th mat-header-cell *matHeaderCellDef> Date </th>
+              <td mat-cell *matCellDef="let expense"> {{ expense.date }} </td>
+            </ng-container>
+            <!-- Amount Column -->
+            <ng-container matColumnDef="amount">
+              <th mat-header-cell *matHeaderCellDef> Amount </th>
+              <td mat-cell *matCellDef="let expense"> {{ expense.amount | currency:'PHP':'symbol':'1.2-2' }} </td>
+            </ng-container>
+            <!-- Actions Column -->
+            <ng-container matColumnDef="actions">
+              <th mat-header-cell *matHeaderCellDef> Actions </th>
+              <td mat-cell *matCellDef="let expense; let i = index">
+                <button type="button" class="btn btn-sm btn-info" (click)="editExpense(i)">Edit</button>
+                <button type="button" class="btn btn-sm btn-danger" (click)="deleteExpense(i)">Delete</button>
+              </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="['description', 'date', 'amount', 'actions']"></tr>
+            <tr mat-row *matRowDef="let expense; columns: ['description', 'date', 'amount', 'actions'];"></tr>
           </table>
         </div>
       </div>
     </div>
-    
+  </div>
 
-<div class="container mt-4">
-  <div class="row">
+  <!-- Summary -->
+  <div class="row mt-4">
     <div class="col-12">
       <div class="card">
         <div class="card-body">
@@ -181,3 +183,42 @@
     </div>
   </div>
 </div>
+
+<style>
+  /* Adjust row spacing */
+.row {
+  margin-bottom: 20px;
+}
+
+/* Set card width to fill entire row */
+.card {
+  width: 100%;
+}
+
+/* Adjust card margin and padding */
+.card {
+  margin-bottom: 20px;
+}
+
+/* Ensure tables don't overflow */
+.table-responsive {
+  overflow-x: auto;
+}
+
+/* Ensure tables take full width */
+.mat-elevation-z8 {
+  width: 100%;
+}
+
+/* Adjust summary table width */
+.table {
+  width: 100%;
+}
+
+/* Ensure buttons are displayed inline */
+.card-body button {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+</style>

@@ -8,7 +8,9 @@ import { Role } from '@app/_models';
 
 // array in local storage for accounts
 const accountsKey = 'angular-10-signup-verification-boilerplate-accounts';
-let accounts = JSON.parse(localStorage.getItem(accountsKey)) || [];
+// Use type assertion to ensure localStorage.getItem returns a string
+let accounts = JSON.parse(localStorage.getItem(accountsKey) || '[]');
+
 
 @Injectable()
 export class FakeBackendInterceptor implements HttpInterceptor {
@@ -347,18 +349,21 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         }
 
         function currentAccount() {
-            // check if jwt token is in auth header
+            // check if 'Authorization' header exists
             const authHeader = headers.get('Authorization');
+            if (!authHeader) return;
+        
             if (!authHeader.startsWith('Bearer fake-jwt-token')) return;
-
+        
             // check if token is expired
             const jwtToken = JSON.parse(atob(authHeader.split('.')[1]));
             const tokenExpired = Date.now() > (jwtToken.exp * 1000);
             if (tokenExpired) return;
-
+        
             const account = accounts.find(x => x.id === jwtToken.id);
             return account;
         }
+        
 
         function generateJwtToken(account) {
             // create token that expires in 15 minutes

@@ -4,7 +4,8 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import { AccountService } from '@app/_services';
 
 @Component({
-    templateUrl: 'home.component.html'
+    selector: 'app-home',
+    templateUrl: './home.component.html' // Ensure the correct template URL
 })
 export class HomeComponent implements OnInit, AfterViewInit {
     @ViewChild('calendarEl') calendarEl: ElementRef;
