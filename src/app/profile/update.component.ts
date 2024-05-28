@@ -7,12 +7,14 @@ import { AccountService, AlertService } from '@app/_services';
 import { MustMatch } from '@app/_helpers';
 
 @Component({ templateUrl: 'update.component.html' })
+
 export class UpdateComponent implements OnInit {
     account = this.accountService.accountValue;
     form: FormGroup;
     loading = false;
     submitted = false;
     deleting = false;
+    selectedFile: File | null = null;
 
     constructor(
         private formBuilder: FormBuilder,
@@ -29,12 +31,20 @@ export class UpdateComponent implements OnInit {
             lastName: [this.account.lastName, Validators.required],
             email: [this.account.email, [Validators.required, Validators.email]],
             password: ['', [Validators.minLength(6)]],
-            confirmPassword: ['']
+            confirmPassword: [''],
+            profilePicture: ['']
         }, {
             validator: MustMatch('password', 'confirmPassword')
         });
+
     }
 
+    onFileSelected(event: any) {
+        const file = event.target.files[0];
+        if (file) {
+            this.selectedFile = file;
+        }
+    }
     // convenience getter for easy access to form fields
     get f() { return this.form.controls; }
 
@@ -50,6 +60,18 @@ export class UpdateComponent implements OnInit {
         }
 
         this.loading = true;
+
+        const formData = new FormData();
+        formData.append('title', this.form.get('title')?.value);
+        formData.append('firstName', this.form.get('firstName')?.value);
+        formData.append('lastName', this.form.get('lastName')?.value);
+        formData.append('email', this.form.get('email')?.value);
+        formData.append('password', this.form.get('password')?.value);
+        formData.append('confirmPassword', this.form.get('confirmPassword')?.value);
+        if (this.selectedFile) {
+            formData.append('profilePicture', this.selectedFile, this.selectedFile.name);
+        }
+
         this.accountService.update(this.account.id, this.form.value)
             .pipe(first())
             .subscribe({
